@@ -25,7 +25,11 @@
 //   rl.on("close", f)  runs f once, after you type q (which calls rl.close())
 // So: collect lines in the "line" handler, do the work in the "close" handler.
 
+
 import readline from "node:readline";
+import Inko from "inko";
+
+const inko = new Inko();
 
 // TODO: import Inko from "inko" and create an instance
 
@@ -49,6 +53,12 @@ rl.on("line", (line) => {
 
 rl.on("close", () => {
   // TODO
+  lines
+    .filter(line => line.trim() !== "")
+    .map(line => (reverse ? inko.ko2en(line) : inko.en2ko(line)))
+    .forEach((converted, index) => {
+      console.log(`${index + 1}. ${converted}`);
+    });
   // Drop empty lines, convert each line with inko, and print them numbered:
   //   1. 오픈 소스
   //   2. 깃허브 노드
